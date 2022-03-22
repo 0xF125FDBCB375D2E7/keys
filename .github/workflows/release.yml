@@ -1,0 +1,25 @@
+name: Release
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release-on-push:
+    runs-on: ubuntu-latest
+
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - id: release
+        uses: 0xF125FDBCB375D2E7/release-on-push@main
+        with:
+          bump_version_scheme: patch
+          use_github_release_notes: true
+          tag_prefix: "v"
+
+      - name: Check tag Output
+        run: |
+          echo "Got tag version ${{ steps.release.outputs.tag_name }}"
+          echo "Got release version ${{ steps.release.outputs.version }}"
